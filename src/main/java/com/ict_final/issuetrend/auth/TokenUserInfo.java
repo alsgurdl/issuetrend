@@ -13,6 +13,6 @@ public class TokenUserInfo {
 
     private String userNo;
     private String email;
-    private LoginPath loginPath;
+
 
 }
