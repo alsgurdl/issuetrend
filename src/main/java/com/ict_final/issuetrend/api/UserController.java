@@ -9,6 +9,7 @@ import com.ict_final.issuetrend.dto.response.NickResponseDTO;
 import com.ict_final.issuetrend.dto.response.UserSignUpResponseDTO;
 import com.ict_final.issuetrend.entity.User;
 import com.ict_final.issuetrend.repository.UserRepository;
+import com.ict_final.issuetrend.service.GoogleLoginService;
 import com.ict_final.issuetrend.service.NaverLoginService;
 import com.ict_final.issuetrend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,6 +44,7 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final NaverLoginService naverService;
+    private final GoogleLoginService googleLoginService;
     // 이메일 중복 확인 요청 처리
     @Operation(summary = "이메일 중복 확인", description = "이메일 중복 확인을 담당하는 메서드 입니다.")
     @Parameter(name = "email", description = "이메일을 작성하세요.", example = "test123@test.com", required = true)
@@ -318,6 +320,13 @@ public class UserController {
         log.info("/api/auth/kakoLogin - GET code: {}, state: {}", code, state);
         LoginResponseDTO responseDTO = naverService.naverLoginService(code, state);
 
+        return ResponseEntity.ok().body(responseDTO);
+    }
+    @GetMapping("/googlelogin")
+    public ResponseEntity<?> googleLogin(String code) {
+        log.info("/api/auth/googleLogin - GET! code: {}", code);
+        LoginResponseDTO responseDTO = googleLoginService.googleService(code);
+        log.info("responseDTO: {}", responseDTO);
         return ResponseEntity.ok().body(responseDTO);
     }
 }
